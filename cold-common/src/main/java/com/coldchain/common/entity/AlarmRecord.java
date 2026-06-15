@@ -37,6 +37,8 @@ public class AlarmRecord implements Serializable {
 
     private BigDecimal latitude;
 
+    private Integer vehicleStatus;
+
     private Integer alarmLevel;
 
     private Integer processStatus;

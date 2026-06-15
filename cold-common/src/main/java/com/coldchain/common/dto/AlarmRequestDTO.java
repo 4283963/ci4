@@ -35,5 +35,7 @@ public class AlarmRequestDTO implements Serializable {
 
     private BigDecimal latitude;
 
+    private Integer vehicleStatus;
+
     private LocalDateTime alarmTime;
 }

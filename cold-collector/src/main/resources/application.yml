@@ -62,6 +62,7 @@ coldchain:
     connect-timeout: 5000
     read-timeout: 10000
     retry-times: 3
+    suppress-seconds: 300
   clickhouse:
     batch-size: 10000
     queue-capacity: 200000
@@ -70,6 +71,10 @@ coldchain:
     back-pressure-threshold: 0.8
   kafka:
     back-pressure-enabled: true
+  vehicle:
+    rest-speed-threshold: 1.0
+    rest-confirm-count: 3
+    status-expire-minutes: 30
 
 mybatis-plus:
   mapper-locations: classpath*:/mapper/**/*.xml

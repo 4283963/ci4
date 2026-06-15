@@ -24,6 +24,7 @@ CREATE TABLE `alarm_record` (
     `threshold`       DECIMAL(10,2)   NOT NULL DEFAULT 0      COMMENT '阈值',
     `longitude`       DECIMAL(10,6)   NOT NULL DEFAULT 0      COMMENT '经度',
     `latitude`        DECIMAL(10,6)   NOT NULL DEFAULT 0      COMMENT '纬度',
+    `vehicle_status`  TINYINT         NOT NULL DEFAULT 0      COMMENT '车辆状态:0-未知 1-行驶 2-休息',
     `alarm_level`     TINYINT         NOT NULL DEFAULT 1      COMMENT '报警级别:1-低 2-中 3-高',
     `process_status`  TINYINT         NOT NULL DEFAULT 0      COMMENT '处理状态:0-待处理 1-已处理',
     `alarm_time`      DATETIME        NOT NULL                COMMENT '报警时间',
@@ -35,7 +36,8 @@ CREATE TABLE `alarm_record` (
     KEY `idx_vehicle_no` (`vehicle_no`),
     KEY `idx_alarm_time` (`alarm_time`),
     KEY `idx_alarm_type_level` (`alarm_type`, `alarm_level`),
-    KEY `idx_process_status` (`process_status`)
+    KEY `idx_process_status` (`process_status`),
+    KEY `idx_vehicle_status` (`vehicle_status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='冷链报警记录表';
 
 -- ============================================================

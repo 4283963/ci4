@@ -31,6 +31,10 @@ public class TemperatureRecord implements Serializable {
 
     private BigDecimal latitude;
 
+    private BigDecimal speed;
+
+    private Integer vehicleStatus;
+
     private Integer status;
 
     private LocalDateTime reportTime;

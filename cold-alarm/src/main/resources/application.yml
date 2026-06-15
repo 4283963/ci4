@@ -33,6 +33,8 @@ coldchain:
   notify:
     sms-enabled: true
     email-enabled: true
+  alarm:
+    rest-notify-enabled: false
 
 logging:
   level:

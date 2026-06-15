@@ -29,6 +29,8 @@ CREATE TABLE IF NOT EXISTS cold_chain.temperature_record
     `humidity`        Decimal32(2)             DEFAULT 0   COMMENT '湿度(%)',
     `longitude`       Decimal32(6)             DEFAULT 0   COMMENT '经度',
     `latitude`        Decimal32(6)             DEFAULT 0   COMMENT '纬度',
+    `speed`           Decimal32(2)             DEFAULT 0   COMMENT '速度(km/h)',
+    `vehicle_status`  Int8                     DEFAULT 0   COMMENT '车辆状态:0-未知 1-行驶 2-休息',
     `status`          Int8                     DEFAULT 1   COMMENT '状态:1-正常 0-异常',
     `report_time`     DateTime                 COMMENT '设备上报时间',
     `create_time`     DateTime                 DEFAULT now() COMMENT '入库时间'

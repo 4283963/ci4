@@ -88,6 +88,8 @@ public class TemperatureKafkaConsumer {
                         .humidity(dto.getHumidity())
                         .longitude(dto.getLongitude())
                         .latitude(dto.getLatitude())
+                        .speed(dto.getSpeed())
+                        .vehicleStatus(dto.getVehicleStatus())
                         .status(dto.getStatus() != null ? dto.getStatus() : 1)
                         .reportTime(dto.getReportTime() != null ? dto.getReportTime() : now)
                         .createTime(now)

@@ -4,7 +4,7 @@
 
     <insert id="batchInsert">
         INSERT INTO temperature_record
-        (id, device_id, vehicle_no, temperature, humidity, longitude, latitude, status, report_time, create_time)
+        (id, device_id, vehicle_no, temperature, humidity, longitude, latitude, speed, vehicle_status, status, report_time, create_time)
         VALUES
         <foreach collection="list" item="item" separator=",">
             (
@@ -15,6 +15,8 @@
             #{item.humidity},
             #{item.longitude},
             #{item.latitude},
+            #{item.speed},
+            #{item.vehicleStatus},
             #{item.status},
             #{item.reportTime},
             #{item.createTime}

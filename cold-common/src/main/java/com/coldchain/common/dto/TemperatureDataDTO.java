@@ -29,6 +29,10 @@ public class TemperatureDataDTO implements Serializable {
 
     private BigDecimal latitude;
 
+    private BigDecimal speed;
+
+    private Integer vehicleStatus;
+
     private LocalDateTime reportTime;
 
     private Integer status;
