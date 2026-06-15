@@ -1,0 +1,74 @@
+server:
+  port: 8081
+  tomcat:
+    max-threads: 500
+    accept-count: 1000
+
+spring:
+  application:
+    name: cold-collector
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${NACOS_ADDR:127.0.0.1:8848}
+
+  kafka:
+    bootstrap-servers: ${KAFKA_ADDR:127.0.0.1:9092}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      acks: 1
+      retries: 3
+      batch-size: 16384
+      buffer-memory: 33554432
+      compression-type: snappy
+      properties:
+        linger.ms: 5
+    consumer:
+      group-id: cold-collector-group
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      auto-offset-reset: latest
+      enable-auto-commit: false
+      max-poll-records: 500
+      properties:
+        spring.json.trusted.packages: "*"
+        spring.json.value.default.type: com.coldchain.common.dto.TemperatureDataDTO
+    listener:
+      ack-mode: manual
+      concurrency: 8
+      poll-timeout: 3000
+
+  datasource:
+    driver-class-name: com.clickhouse.jdbc.ClickHouseDriver
+    url: jdbc:clickhouse://${CLICKHOUSE_ADDR:127.0.0.1:8123}/cold_chain
+    username: ${CLICKHOUSE_USER:default}
+    password: ${CLICKHOUSE_PASSWORD:}
+    hikari:
+      maximum-pool-size: 30
+      minimum-idle: 10
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+
+coldchain:
+  alarm:
+    url: http://${ALARM_HOST:127.0.0.1}:${ALARM_PORT:8082}/alarm/receive
+    connect-timeout: 5000
+    read-timeout: 10000
+    retry-times: 3
+  clickhouse:
+    batch-size: 2000
+    flush-interval-seconds: 5
+
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**/*.xml
+  type-aliases-package: com.coldchain.common.entity
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.nologging.NoLoggingImpl
+
+logging:
+  level:
+    com.coldchain: INFO
+    org.springframework.kafka: INFO

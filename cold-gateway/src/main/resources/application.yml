@@ -1,0 +1,43 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: cold-gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${NACOS_ADDR:127.0.0.1:8848}
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      routes:
+        - id: cold-collector-route
+          uri: lb://cold-collector
+          predicates:
+            - Path=/api/collect/**
+          filters:
+            - StripPrefix=2
+
+        - id: cold-alarm-route
+          uri: lb://cold-alarm
+          predicates:
+            - Path=/api/alarm/**
+          filters:
+            - StripPrefix=2
+
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowed-origin-patterns: "*"
+            allowed-methods: "*"
+            allowed-headers: "*"
+            allow-credentials: true
+            max-age: 3600
+
+logging:
+  level:
+    org.springframework.cloud.gateway: INFO
+    com.coldchain: DEBUG

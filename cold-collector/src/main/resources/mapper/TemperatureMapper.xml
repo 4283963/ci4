@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coldchain.collector.mapper.TemperatureMapper">
+
+    <insert id="batchInsert">
+        INSERT INTO temperature_record
+        (id, device_id, vehicle_no, temperature, humidity, longitude, latitude, status, report_time, create_time)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id},
+            #{item.deviceId},
+            #{item.vehicleNo},
+            #{item.temperature},
+            #{item.humidity},
+            #{item.longitude},
+            #{item.latitude},
+            #{item.status},
+            #{item.reportTime},
+            #{item.createTime}
+            )
+        </foreach>
+    </insert>
+
+</mapper>

@@ -1,0 +1,39 @@
+server:
+  port: 8082
+  tomcat:
+    max-threads: 400
+    accept-count: 800
+
+spring:
+  application:
+    name: cold-alarm
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${NACOS_ADDR:127.0.0.1:8848}
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${MYSQL_ADDR:127.0.0.1:3306}/cold_chain?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    username: ${MYSQL_USER:root}
+    password: ${MYSQL_PASSWORD:123456}
+    hikari:
+      maximum-pool-size: 30
+      minimum-idle: 10
+      connection-timeout: 30000
+      idle-timeout: 600000
+
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**/*.xml
+  type-aliases-package: com.coldchain.common.entity
+  configuration:
+    map-underscore-to-camel-case: true
+
+coldchain:
+  notify:
+    sms-enabled: true
+    email-enabled: true
+
+logging:
+  level:
+    com.coldchain: DEBUG
