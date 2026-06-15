@@ -19,25 +19,30 @@ spring:
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
       acks: 1
       retries: 3
-      batch-size: 16384
-      buffer-memory: 33554432
+      batch-size: 65536
+      buffer-memory: 134217728
       compression-type: snappy
       properties:
-        linger.ms: 5
+        linger.ms: 20
+        max.in.flight.requests.per.connection: 5
     consumer:
       group-id: cold-collector-group
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       auto-offset-reset: latest
       enable-auto-commit: false
-      max-poll-records: 500
+      max-poll-records: 2000
+      max-poll-interval-ms: 300000
+      fetch-min-size: 1048576
+      fetch-max-wait: 500
       properties:
         spring.json.trusted.packages: "*"
         spring.json.value.default.type: com.coldchain.common.dto.TemperatureDataDTO
     listener:
-      ack-mode: manual
-      concurrency: 8
-      poll-timeout: 3000
+      ack-mode: MANUAL
+      concurrency: 4
+      poll-timeout: 5000
+      idle-event-interval: 60000
 
   datasource:
     driver-class-name: com.clickhouse.jdbc.ClickHouseDriver
@@ -58,8 +63,13 @@ coldchain:
     read-timeout: 10000
     retry-times: 3
   clickhouse:
-    batch-size: 2000
-    flush-interval-seconds: 5
+    batch-size: 10000
+    queue-capacity: 200000
+    min-flush-interval-ms: 1000
+    max-flush-interval-ms: 5000
+    back-pressure-threshold: 0.8
+  kafka:
+    back-pressure-enabled: true
 
 mybatis-plus:
   mapper-locations: classpath*:/mapper/**/*.xml

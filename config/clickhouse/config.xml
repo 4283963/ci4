@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<yandex>
+    <!-- =======================================================
+         ClickHouse 全局配置优化
+         ======================================================= -->
+
+    <logger>
+        <level>information</level>
+        <log>/var/log/clickhouse-server/clickhouse-server.log</log>
+        <errorlog>/var/log/clickhouse-server/clickhouse-server.err.log</errorlog>
+        <size>1000M</size>
+        <count>10</count>
+    </logger>
+
+    <!-- 监听所有网络接口 -->
+    <listen_host>0.0.0.0</listen_host>
+
+    <!-- TCP 端口 -->
+    <tcp_port>9000</tcp_port>
+
+    <!-- HTTP 端口 -->
+    <http_port>8123</http_port>
+
+    <!-- 内部复制端口 -->
+    <interserver_http_port>9009</interserver_http_port>
+
+    <!-- 最大连接数 -->
+    <max_connections>4096</max_connections>
+
+    <!-- 并发查询数 -->
+    <max_concurrent_queries>200</max_concurrent_queries>
+
+    <!-- 服务器内存使用上限 (总内存的 80%) -->
+    <max_server_memory_usage>0</max_server_memory_usage>
+    <max_server_memory_usage_to_ram_ratio>0.8</max_server_memory_usage_to_ram_ratio>
+
+    <!-- 标记缓存大小 -->
+    <mark_cache_size>5368709120</mark_cache_size>
+
+    <!-- 索引缓存大小 -->
+    <index_mark_cache_size>1073741824</index_mark_cache_size>
+
+    <!-- 取消键检测 -->
+    <cancel_http_readonly_queries_on_client_close>1</cancel_http_readonly_queries_on_client_close>
+
+    <!-- 数据目录 -->
+    <path>/var/lib/clickhouse/</path>
+    <tmp_path>/var/lib/clickhouse/tmp/</tmp_path>
+    <user_files_path>/var/lib/clickhouse/user_files/</user_files_path>
+
+    <!-- 包含用户配置 -->
+    <users_config>users.xml</users_config>
+
+    <!-- 内置数据库 -->
+    <builtin_dictionaries_reload_interval>3600</builtin_dictionaries_reload_interval>
+
+    <!-- 分布式 DDL -->
+    <distributed_ddl>
+        <path>/clickhouse/task_queue/ddl</path>
+    </distributed_ddl>
+</yandex>

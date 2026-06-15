@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<yandex>
+    <!-- =======================================================
+         ClickHouse 优化配置 - 针对高并发时序写入场景
+         解决 Too many parts 问题
+         ======================================================= -->
+
+    <profiles>
+        <default>
+            <!-- 最大同时查询数 -->
+            <max_concurrent_queries>100</max_concurrent_queries>
+
+            <!-- 单查询最大内存使用 -->
+            <max_memory_usage>10737418240</max_memory_usage>
+
+            <!-- 分布式查询最大内存 -->
+            <distributed_aggregation_memory_efficient>1</distributed_aggregation_memory_efficient>
+
+            <!-- 允许设置 -->
+            <allow_settings_after_format_in_insert>1</allow_settings_after_format_in_insert>
+        </default>
+    </profiles>
+
+    <merge_tree>
+        <!-- 关键: 单表最大 part 数(默认300, 太容易爆了) -->
+        <max_parts_in_total>100000</max_parts_in_total>
+
+        <!-- 单个 partition 最大 part 数 -->
+        <max_parts_per_single_partition>5000</max_parts_per_single_partition>
+
+        <!-- 触发合并的最小 part 数(默认 2, 太小容易频繁合并) -->
+        <min_bytes_for_wide_part>10485760</min_bytes_for_wide_part>
+        <min_rows_for_wide_part>100000</min_rows_for_wide_part>
+
+        <!-- 合并池大小 - 增加后台合并线程数 -->
+        <number_of_free_entries_in_pool_to_lower_max_size_of_merge>4</number_of_free_entries_in_pool_to_lower_max_size_of_merge>
+        <max_size_of_pull_to_lower_max_size_of_merge>12884901888</max_size_of_pull_to_lower_max_size_of_merge>
+
+        <!-- 单次合并最大字节数 - 允许更大的合并 -->
+        <max_bytes_to_merge_at_max_space_in_pool>214748364800</max_bytes_to_merge_at_max_space_in_pool>
+
+        <!-- 后台合并线程池大小 -->
+        <background_pool_size>16</background_pool_size>
+
+        <!-- 后台分配线程池大小 -->
+        <background_buffer_flush_schedule_pool_size>4</background_buffer_flush_schedule_pool_size>
+
+        <!-- 后台 move 线程池 -->
+        <background_move_pool_size>2</background_move_pool_size>
+
+        <!-- 后台常用任务线程池 -->
+        <background_common_pool_size>4</background_common_pool_size>
+
+        <!-- 合并预测优化 -->
+        <merge_selecting_sleep_ms>100</merge_selecting_sleep_ms>
+
+        <!-- TTL 删除线程数 -->
+        <number_of_ttl_delete_threads>2</number_of_ttl_delete_threads>
+
+        <!-- TTL 归并线程数 -->
+        <number_of_ttl_merge_threads>2</number_of_ttl_merge_threads>
+    </merge_tree>
+</yandex>
